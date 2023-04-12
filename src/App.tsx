@@ -8,7 +8,7 @@ export default function App() {
   const shouldReduceMotion = useReducedMotion();
 
   const max_length = 25;
-  const percentage = (name.length / max_length) * 100;
+  const percentage = Math.min(101, (name.length / max_length) * 100);
   const is_too_much = percentage > 100;
   const color = is_too_much ? `rgb(255,18,18)` : `rgb(24,127,0)`;
 
@@ -58,14 +58,22 @@ export default function App() {
               )`
             } as React.CSSProperties
           }
-          animate={shouldReduceMotion ? {} : [
-            { "--pct": `${percentage}%` } as any,
-            { "--pct-color": `${color}` } as any
-          ]}
-          transition={shouldReduceMotion ? {} : {
-            "--pct": { duration: 0.4, delay: 0 },
-            "--pct-color": { duration: 0.5, delay: 0 }
-          }}
+          animate={
+            shouldReduceMotion
+              ? {}
+              : [
+                  { "--pct": `${percentage}%` } as any,
+                  { "--pct-color": `${color}` } as any
+                ]
+          }
+          transition={
+            shouldReduceMotion
+              ? {}
+              : {
+                  "--pct": { duration: 0.4, delay: 0 },
+                  "--pct-color": { duration: 0.5, delay: 0 }
+                }
+          }
         ></motion.span>
         <div className="relative">
           <span className="invisible font-mono text-sm">{usage_message}</span>
